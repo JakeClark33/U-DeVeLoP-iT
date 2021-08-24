@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require('../../db/connection');
 const inputCheck = require('../../utils/inputCheck');
 
-router.get('/candidates', (req, res) => {
+router.get('/', (req, res) => {
     const sql = `SELECT candidates.*, parties.name 
              AS party_name
              FROM candidates
@@ -23,7 +23,7 @@ router.get('/candidates', (req, res) => {
 });
 
 // Get a single candidate
-router.get('/candidate/:id', (req, res) => {
+router.get('/:id', (req, res) => {
     const sql = `SELECT candidates.*, parties.name 
              AS party_name 
              FROM candidates 
@@ -60,7 +60,7 @@ router.get('/candidate/:id', (req, res) => {
 // });
 
 //Delet a candidate
-router.delete('/candidate/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
     const sql = `DELETE FROM candidates WHERE id = ?`;
     const params = [req.params.id];
 
@@ -83,7 +83,7 @@ db.query(sql, params, (err, result) => {
 });
 
 // Create Candidate
-router.post('/candidate', ({ body }, res) => {
+router.post('/', ({ body }, res) => {
     const errors = inputCheck(body, 'first_name', 'last_name', 'industry_connected');
     if (errors) {
         res.status(400).json({ error: errors});

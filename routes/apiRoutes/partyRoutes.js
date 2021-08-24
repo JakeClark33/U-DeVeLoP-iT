@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const db = require('../../db/connection');
 
-app.get('/parties', (req, res) => {
+
+router.get('/', (req, res) => {
     const sql = `SELECT * FROM parties`;
     db.query(sql, (err, rows) => {
       if (err) {
@@ -16,7 +17,7 @@ app.get('/parties', (req, res) => {
     });
   });
 
-  app.get('/party/:id', (req, res) => {
+  router.get('/:id', (req, res) => {
     const sql = `SELECT * FROM parties WHERE id = ?`;
     const params = [req.params.id];
     db.query(sql, params, (err, row) => {
@@ -31,7 +32,7 @@ app.get('/parties', (req, res) => {
     });
   });
 
-  app.delete('/party/:id', (req, res) => {
+  router.delete('/:id', (req, res) => {
     const sql = `DELETE FROM parties WHERE id = ?`;
     const params = [req.params.id];
     db.query(sql, params, (err, result) => {
@@ -52,7 +53,7 @@ app.get('/parties', (req, res) => {
     });
   });
 
-  app.put('/candidate/:id', (req, res) => {
+  router.put('/:id', (req, res) => {
     const errors = inputCheck(req.body, 'party_id');
 
 if (errors) {
@@ -79,3 +80,5 @@ if (errors) {
       }
     });
   });
+
+module.exports = router;
